@@ -1,6 +1,6 @@
-quantum_key_distrib_simple
-Project Title: Simulation of BB84 Quantum Key Distribution protocol using Python, in noiseless, noisy and eavesdropping cases.
-Author: Dhruv Bhatnagar.
+quantum_key_distrib_simulation
+Project Title: Satellite QKD as a Zero‑Trust Backbone for Critical Supply Chains Systems.
+
 File guide:
 
 A) Files needed for noiseless QKD experiment:
