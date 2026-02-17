@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satellite-Based QKD Zero-Trust Backbone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base mobile height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px; /* Tablet/Desktop height */
+            }
+        }
+
+        /* Custom Scrollbar for internal panels */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Interactive Element Styles */
+        .arch-node {
+            transition: all 0.3s ease;
+        }
+        .arch-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .arch-node.active {
+            border-color: #1e3a8a; /* Blue-900 */
+            background-color: #eff6ff; /* Blue-50 */
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc; /* Slate-50 */
+            color: #1e293b; /* Slate-800 */
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- PALETTE & STRUCTURE PLACEHOLDERS -->
+    <!-- Chosen Palette: "Orbital Light" - Warm neutral background (Slate-50) with deep Technical Blue (Blue-900) primary and Gold accents for key elements. Clean, academic, yet modern. -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero: Title & Abstract Synthesis. Sets the stage.
+         2. Threat Landscape: Visual comparison of security models (Classical vs. Quantum).
+         3. System Architecture: Interactive "Click-to-Reveal" diagram. Users explore the LEO/GEO -> Ground -> ZK-Service flow.
+         4. Operations & Observability: "Mission Control" dashboard. Interactive Chart.js simulation of environmental factors on key rates.
+         5. Results & Case Studies: Tabbed content for Grid vs. Supply Chain findings.
+         Why? This structure moves from "Why" (Threats) to "How" (Architecture) to "Performance" (Operations), mirroring the cognitive flow of understanding a complex technical proposal. -->
+
+    <!-- Visualization & Content Choices:
+         1. Threat Chart: Bar Chart. Goal: Compare longevity of crypto methods. Interaction: Static view for clarity.
+         2. Arch Diagram: CSS Grid + JS Selection. Goal: Explain complex routing. Interaction: Click node -> Update text. NO SVG used.
+         3. Ops Chart: Line Chart. Goal: Show resilience logic. Interaction: Slider for 'Turbulence' updates chart data dynamically.
+         4. Icons: Unicode (🛰️, 🏭, 🔐). Confirmed NO SVG. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🛰️</span>
+                    <span class="font-bold text-slate-800 tracking-tight">QKD-Z Backbone</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                    <button onclick="scrollToSection('threats')" class="hover:text-blue-700 transition-colors">Threats</button>
+                    <button onclick="scrollToSection('architecture')" class="hover:text-blue-700 transition-colors">Architecture</button>
+                    <button onclick="scrollToSection('observability')" class="hover:text-blue-700 transition-colors">Resilience</button>
+                    <button onclick="scrollToSection('results')" class="hover:text-blue-700 transition-colors">Results</button>
+                </div>
+                <!-- Mobile Menu Button (Functional logic simplified for single file) -->
+                <button class="md:hidden text-2xl text-slate-600">≡</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-24">
+
+        <!-- Hero Section -->
+        <section class="text-center space-y-6">
+            <div class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold tracking-wide uppercase mb-2">Research Synthesis</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+                Satellite-Based Quantum Key Distribution
+                <span class="block text-blue-800 text-2xl md:text-3xl mt-2 font-bold">A Zero-Trust Backbone for Infrastructure</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-600 leading-relaxed">
+                As quantum computing threatens classical cryptography, critical infrastructure requires a new trust fabric. This research proposes a global <strong>QKD overlay</strong> fusing LEO/GEO satellites with a <strong>Zero-Trust Key Service</strong> to secure power grids and supply chains.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mt-8">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                    <div class="text-2xl mb-1">⚛️</div>
+                    <div class="font-bold text-slate-800">Physics-Based Security</div>
+                    <div class="text-xs text-slate-500">Information-theoretic secrecy via quantum states.</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                    <div class="text-2xl mb-1">🛡️</div>
+                    <div class="font-bold text-slate-800">Zero-Trust Logic</div>
+                    <div class="text-xs text-slate-500">Continuous verification & policy-driven access.</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                    <div class="text-2xl mb-1">🌐</div>
+                    <div class="font-bold text-slate-800">Global Overlay</div>
+                    <div class="text-xs text-slate-500">Multi-constellation satellite & ground mesh.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: The Threat Landscape -->
+        <section id="threats" class="scroll-mt-20">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-4">The Post-Quantum Threat Landscape</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    Nation-state adversaries and the imminent arrival of large-scale quantum computers utilize cryptanalytic advances (like Shor's algorithm) to erode the assurances of current Public Key Infrastructure (PKI). This section visualizes the urgency of transitioning to a QKD-backed model.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-slate-800">Why the Shift?</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-red-500 font-bold">!</span>
+                            <span class="text-sm text-slate-600"><strong>Store Now, Decrypt Later:</strong> Adversaries are harvesting encrypted traffic today to decrypt once quantum computers mature.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-red-500 font-bold">!</span>
+                            <span class="text-sm text-slate-600"><strong>Supply Chain Attacks:</strong> Compromised nodes in global logistics require physics-based verification, not just digital certificates.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-green-600 font-bold">✓</span>
+                            <span class="text-sm text-slate-600"><strong>QKD Advantage:</strong> Offers forward secrecy independent of computational hardness assumptions.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Chart Container 1 -->
+                <div class="flex flex-col items-center w-full">
+                    <div class="chart-container">
+                        <canvas id="threatChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 text-center">Projected Security Assurance Levels over Time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Zero-Trust QKD Architecture -->
+        <section id="architecture" class="scroll-mt-20">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-4">Architecture Explorer</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    The proposed system is an end-to-end architecture where keys generated in orbit are injected into a terrestrial Zero-Trust Key Service. This service acts as the brain, enforcing policy before keys reach critical infrastructure. Click the nodes below to explore the layers.
+                </p>
+            </div>
+
+            <!-- Interactive Diagram Layout -->
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Left: Diagram Controls -->
+                <div class="lg:w-1/2 grid grid-cols-2 gap-4">
+                    <!-- Node 1: Satellites -->
+                    <div onclick="updateArchDetails('sat')" class="arch-node cursor-pointer bg-white p-4 rounded-lg border-2 border-slate-200 hover:border-blue-400 group col-span-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-2xl">🛰️</div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Physical Layer</div>
+                        </div>
+                        <h3 class="font-bold text-slate-800 group-hover:text-blue-700">LEO/GEO Constellation</h3>
+                        <p class="text-xs text-slate-500 mt-1">Generates raw keys via single-photon states.</p>
+                    </div>
+
+                    <!-- Node 2: Ground Stations -->
+                    <div onclick="updateArchDetails('ground')" class="arch-node cursor-pointer bg-white p-4 rounded-lg border-2 border-slate-200 hover:border-blue-400 group">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-2xl">📡</div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Link Layer</div>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-sm group-hover:text-blue-700">Ground Gateway</h3>
+                        <p class="text-xs text-slate-500 mt-1">Receives photons, measures states.</p>
+                    </div>
+
+                    <!-- Node 3: ZK Service -->
+                    <div onclick="updateArchDetails('zk')" class="arch-node cursor-pointer bg-white p-4 rounded-lg border-2 border-slate-200 hover:border-blue-400 group active border-blue-900 bg-blue-50">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-2xl">🧠</div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Control Plane</div>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-sm group-hover:text-blue-700">ZK-Service</h3>
+                        <p class="text-xs text-slate-500 mt-1">Policy, Identity, & Orchestration.</p>
+                    </div>
+
+                    <!-- Node 4: End User -->
+                    <div onclick="updateArchDetails('user')" class="arch-node cursor-pointer bg-white p-4 rounded-lg border-2 border-slate-200 hover:border-blue-400 group col-span-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-2xl">🏭</div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Application Layer</div>
+                        </div>
+                        <h3 class="font-bold text-slate-800 group-hover:text-blue-700">Critical Infrastructure Client</h3>
+                        <p class="text-xs text-slate-500 mt-1">Power Grids, Logistics Hubs, Finance.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Info Panel -->
+                <div class="lg:w-1/2 bg-slate-800 text-white rounded-xl p-6 shadow-lg flex flex-col justify-center min-h-[300px]">
+                    <div id="arch-title" class="flex items-center gap-3 text-xl font-bold text-yellow-400 mb-4">
+                        <span>🧠</span> Zero-Trust Key Service (ZK-Service)
+                    </div>
+                    <div id="arch-content" class="text-slate-300 space-y-4 leading-relaxed text-sm">
+                        <p>The operational core of the architecture. Unlike traditional QKD which just pushes keys, the ZK-Service enforces <strong>continuous identity verification</strong> and device posture assessment.</p>
+                        <p>It acts as a middleware that leases short-lived, context-bound keys to applications only after validating policy compliance (e.g., "Is the receiving node in a trusted geo-location?").</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+                            <li>Dynamic Risk Scoring</li>
+                            <li>Supply-Chain Credentialing</li>
+                            <li>Audit Trails</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Observability & Resilience (Simulation) -->
+        <section id="observability" class="scroll-mt-20">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-4">Observability & Resilience</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    Real-world operations face challenges like atmospheric turbulence and physical attacks. The system uses a multi-modal observability stack to drive adaptive key distribution. Use the simulator below to see how the system optimizes key rates under varying atmospheric conditions.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <h3 class="font-bold text-slate-800">Link Optimization Simulator</h3>
+                        <p class="text-xs text-slate-500">Adjust turbulence to see system response.</p>
+                    </div>
+                    <!-- Control -->
+                    <div class="flex items-center gap-4">
+                        <label for="turbulenceRange" class="text-sm font-medium text-slate-700">Atmospheric Turbulence:</label>
+                        <input type="range" id="turbulenceRange" min="0" max="100" value="20" class="w-32 md:w-48 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        <span id="turbulenceVal" class="text-sm font-mono text-blue-700 font-bold">20%</span>
+                    </div>
+                </div>
+
+                <div class="p-6 grid lg:grid-cols-3 gap-6">
+                    <!-- Metrics Panel -->
+                    <div class="space-y-4 lg:col-span-1">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="text-xs text-blue-600 uppercase font-bold mb-1">Mission Assurance</div>
+                            <div id="assuranceMetric" class="text-2xl font-bold text-blue-900">98.5%</div>
+                            <div class="text-xs text-blue-400 mt-1">Availability & Integrity</div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <div class="text-xs text-slate-500 uppercase font-bold mb-1">Est. Key Rate</div>
+                            <div id="keyRateMetric" class="text-2xl font-bold text-slate-700">4.2 kbps</div>
+                            <div class="text-xs text-slate-400 mt-1">Secure Key Generation</div>
+                        </div>
+                        <div class="text-sm text-slate-600 mt-4">
+                            <strong>System Logic:</strong><br>
+                            As turbulence increases, the system automatically activates <em>Diversity Mode</em> (multi-path/hybrid fiber) to maintain assurance, though raw key rate may drop.
+                        </div>
+                    </div>
+
+                    <!-- Chart Container 2 -->
+                    <div class="lg:col-span-2 flex flex-col items-center w-full">
+                         <div class="chart-container">
+                            <canvas id="resilienceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Results & Case Studies -->
+        <section id="results" class="scroll-mt-20">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-600 pl-4">Impact & Validation</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    Based on pilot deployments and digital-twin testbeds, the architecture demonstrates significant improvements in security posture for high-value targets. Explore the specific outcomes below.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Tab Buttons -->
+                <div class="md:col-span-1 flex flex-col space-y-2">
+                    <button onclick="showCaseStudy(0)" id="tab-0" class="case-tab active text-left px-4 py-3 rounded-lg font-medium text-sm transition-all border-l-4 bg-white shadow-sm border-blue-600 text-blue-900">
+                        ⚡ Electric Grid Ops
+                    </button>
+                    <button onclick="showCaseStudy(1)" id="tab-1" class="case-tab text-left px-4 py-3 rounded-lg font-medium text-sm transition-all border-l-4 border-transparent text-slate-600 hover:bg-white hover:shadow-sm">
+                        📦 Logistics & Supply Chain
+                    </button>
+                    <button onclick="showCaseStudy(2)" id="tab-2" class="case-tab text-left px-4 py-3 rounded-lg font-medium text-sm transition-all border-l-4 border-transparent text-slate-600 hover:bg-white hover:shadow-sm">
+                        ⚓ Maritime & Ports
+                    </button>
+                </div>
+
+                <!-- Content Area -->
+                <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-200 min-h-[250px] relative">
+                    <div id="case-content-0" class="case-content animate-fade-in">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Electric Grid Operations</h3>
+                        <p class="text-slate-600 mb-4 text-sm"><strong>Challenge:</strong> Securing SCADA telemetry and inter-substation control signals against delayed-decryption attacks.</p>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-green-50 p-3 rounded border border-green-100">
+                                <div class="text-lg font-bold text-green-700">Zero</div>
+                                <div class="text-xs text-green-600">Privileged Pathway Exposure</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded border border-green-100">
+                                <div class="text-lg font-bold text-green-700">&lt; 50ms</div>
+                                <div class="text-xs text-green-600">Rekey Latency</div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-500"><em>Outcome:</em> Enabled verifiable rekeying during simulated compromise events, ensuring continuity of black-start procedures.</p>
+                    </div>
+
+                    <div id="case-content-1" class="case-content hidden animate-fade-in">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Pharma Cold Chain</h3>
+                        <p class="text-slate-600 mb-4 text-sm"><strong>Challenge:</strong> Verifying data integrity for sensitive sensors across varying jurisdictions and connectivity domains.</p>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2 mb-4">
+                            <li>Dynamic binding of keys to provenance events.</li>
+                            <li>Auditability for regulatory compliance (FDA/EMA).</li>
+                        </ul>
+                        <p class="text-sm text-slate-500"><em>Outcome:</em> The ZK-Service successfully bound encryption keys to device safety events, creating an immutable ledger of custody.</p>
+                    </div>
+
+                    <div id="case-content-2" class="case-content hidden animate-fade-in">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Maritime Port Logistics</h3>
+                        <p class="text-slate-600 mb-4 text-sm"><strong>Challenge:</strong> High latency and intermittent connectivity in offshore environments.</p>
+                        <p class="text-sm text-slate-600 mb-4">Utilized <strong>multi-constellation diversity</strong> to maintain key pools even during heavy weather windows, utilizing buffered keys during outages.</p>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-blue-600 h-full" style="width: 85%"></div>
+                        </div>
+                        <div class="text-xs text-right text-slate-500 mt-1">85% Improvement in Continuity</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 pt-10 pb-6 text-center text-slate-500">
+            <p class="text-sm mb-4">
+                <strong>Source:</strong> "Satellite‑Based Quantum Key Distribution (QKD) as a Zero‑Trust Backbone for Critical Infrastructure and Supply Chains"
+            </p>
+            <p class="text-xs max-w-2xl mx-auto">
+                This interactive explorer synthesizes the architecture, security models, and validation results of the proposed system. It demonstrates the transition from point experiments to a scalable, policy-enforced global trust fabric.
+            </p>
+            <div class="mt-8 text-xs text-slate-400">
+                Generated for Analysis • 2024
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. ARCHITECTURE INTERACTION LOGIC ---
+        const archData = {
+            sat: {
+                title: "🛰️ LEO/GEO Constellation",
+                subtitle: "Physical Layer",
+                text: "The space segment consists of Low Earth Orbit (LEO) and Geostationary (GEO) satellites equipped with Quantum Random Number Generators (QRNG). They transmit single-photon quantum states (using protocols like BB84 or E91) to ground stations. This layer provides global coverage and 'Information-Theoretic' security foundations.",
+                list: ["Single-photon emission", "Entanglement distribution", "Ephemeris tracking"]
+            },
+            ground: {
+                title: "📡 Ground Gateway",
+                subtitle: "Link Layer",
+                text: "These stations receive the quantum signal. They perform 'sifting' and 'distillation' to correct errors caused by the atmosphere. Crucially, in this Trusted Node model, they act as the bridge between the quantum physics in the sky and the digital network on the ground.",
+                list: ["Atmospheric correction", "Key distillation", "Black-start capability"]
+            },
+            zk: {
+                title: "🧠 ZK-Service",
+                subtitle: "Control Plane",
+                text: "The operational core. Unlike traditional QKD, the ZK-Service enforces **Zero-Trust**. Keys are not just handed out; they are 'leased'. The service verifies the identity of the requestor, checks security posture (e.g., 'Is the OS patched?'), and issues keys bound to specific contexts.",
+                list: ["Policy-aware orchestration", "Dynamic risk scoring", "Context-bound key leases"]
+            },
+            user: {
+                title: "🏭 Infrastructure Client",
+                subtitle: "Application Layer",
+                text: "The end consumer. Power plants, automated ports, or financial centers use these keys to encrypt SCADA traffic or financial transactions. The system supports 'Hybrid' security, using QKD keys for high-value session management while PQC handles bulk data at rest.",
+                list: ["Hybrid PQC/QKD", "SCADA Integration", "Telemetry encryption"]
+            }
+        };
+
+        function updateArchDetails(key) {
+            // Update UI styles
+            document.querySelectorAll('.arch-node').forEach(el => {
+                el.classList.remove('active', 'border-blue-900', 'bg-blue-50');
+                el.classList.add('border-slate-200');
+            });
+            event.currentTarget.classList.add('active', 'border-blue-900', 'bg-blue-50');
+            event.currentTarget.classList.remove('border-slate-200');
+
+            // Update Content
+            const data = archData[key];
+            const contentPanel = document.getElementById('arch-content');
+            const titlePanel = document.getElementById('arch-title');
+            
+            // Animate out
+            contentPanel.style.opacity = '0';
+            titlePanel.style.opacity = '0';
+
+            setTimeout(() => {
+                titlePanel.innerHTML = `<span>${data.title.split(' ')[0]}</span> ${data.title.substring(2)}`;
+                
+                let listHtml = `<ul class="list-disc pl-5 space-y-1 text-slate-400 mt-3">`;
+                data.list.forEach(item => listHtml += `<li>${item}</li>`);
+                listHtml += `</ul>`;
+
+                contentPanel.innerHTML = `
+                    <p class="font-bold text-blue-300 text-xs uppercase mb-2">${data.subtitle}</p>
+                    <p>${data.text}</p>
+                    ${listHtml}
+                `;
+                
+                // Animate in
+                contentPanel.style.opacity = '1';
+                titlePanel.style.opacity = '1';
+            }, 200);
+        }
+
+        // --- 2. CASE STUDY TAB LOGIC ---
+        function showCaseStudy(index) {
+            // Buttons
+            document.querySelectorAll('.case-tab').forEach((btn, i) => {
+                if(i === index) {
+                    btn.classList.add('bg-white', 'shadow-sm', 'border-blue-600', 'text-blue-900');
+                    btn.classList.remove('border-transparent', 'text-slate-600', 'hover:bg-white');
+                } else {
+                    btn.classList.remove('bg-white', 'shadow-sm', 'border-blue-600', 'text-blue-900');
+                    btn.classList.add('border-transparent', 'text-slate-600', 'hover:bg-white');
+                }
+            });
+
+            // Content
+            document.querySelectorAll('.case-content').forEach((content, i) => {
+                if(i === index) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- 3. CHART INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // CHART 1: THREAT LANDSCAPE
+            const ctxThreat = document.getElementById('threatChart').getContext('2d');
+            new Chart(ctxThreat, {
+                type: 'bar',
+                data: {
+                    labels: ['2024', '2026', '2028', '2030 (Q-Day Risk)', '2032'],
+                    datasets: [
+                        {
+                            label: 'Classical (RSA/ECC) Security Assurance',
+                            data: [95, 80, 50, 10, 0],
+                            backgroundColor: 'rgba(239, 68, 68, 0.7)', // Red
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'QKD + PQC Backbone Assurance',
+                            data: [98, 99, 99, 99, 99],
+                            backgroundColor: 'rgba(30, 58, 138, 0.9)', // Blue 900
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Security Confidence Score' }
+                        }
+                    }
+                }
+            });
+
+            // CHART 2: RESILIENCE SIMULATOR
+            const ctxRes = document.getElementById('resilienceChart').getContext('2d');
+            const resilienceChart = new Chart(ctxRes, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [
+                        {
+                            label: 'Effective Key Rate (kbps)',
+                            data: [4.5, 4.4, 4.1, 4.2, 4.5, 4.6],
+                            borderColor: '#2563eb', // Blue 600
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Channel Error Rate (%)',
+                            data: [1.2, 1.3, 1.8, 1.7, 1.2, 1.1],
+                            borderColor: '#ca8a04', // Yellow 600
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Key Rate (kbps)' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: 'Error Rate (%)' }
+                        }
+                    }
+                }
+            });
+
+            // Simulator Logic
+            const turbulenceInput = document.getElementById('turbulenceRange');
+            const turbValDisplay = document.getElementById('turbulenceVal');
+            const assuranceMetric = document.getElementById('assuranceMetric');
+            const keyRateMetric = document.getElementById('keyRateMetric');
+
+            turbulenceInput.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                turbValDisplay.innerText = val + '%';
+
+                // Simulate physics impact: Higher turbulence = Lower key rate, Higher error
+                // However, the ZK-System mitigates complete failure via diversity.
+                
+                const factor = val / 100;
+                
+                // Update Key Rate Data (Drops as turbulence rises)
+                const baseRate = 4.5;
+                const newRates = resilienceChart.data.labels.map(() => {
+                    let r = baseRate * (1 - (factor * 0.6)); // Max 60% drop
+                    return parseFloat(r.toFixed(1));
+                });
+
+                // Update Error Rate Data (Rises as turbulence rises)
+                const baseError = 1.0;
+                const newErrors = resilienceChart.data.labels.map(() => {
+                    let e = baseError + (factor * 4); // Up to 5% error
+                    return parseFloat(e.toFixed(1));
+                });
+
+                resilienceChart.data.datasets[0].data = newRates;
+                resilienceChart.data.datasets[1].data = newErrors;
+                resilienceChart.update();
+
+                // Update Panel Metrics
+                keyRateMetric.innerText = newRates[3] + ' kbps';
+                
+                // Assurance Logic: Even with low key rate, ZK architecture maintains high assurance until critical threshold
+                if(val > 80) {
+                    assuranceMetric.innerText = "85.2%";
+                    assuranceMetric.classList.replace('text-blue-900', 'text-yellow-600');
+                } else {
+                    assuranceMetric.innerText = "98.5%";
+                    assuranceMetric.classList.replace('text-yellow-600', 'text-blue-900');
+                }
+            });
+        });
+
+        // Scroll Helper
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
