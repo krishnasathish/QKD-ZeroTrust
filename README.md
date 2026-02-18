@@ -3,7 +3,7 @@ Project Title: Satellite QKD as a Zero‑Trust Backbone for Critical Supply Chai
 
 File guide:
 
-A) Files needed for noiseless QKD experiment:
+A) Files needed for noiseless QKD simulation:
 
 A.1) qkd_bb84_base.py
 
@@ -19,7 +19,7 @@ C) Eavesdropping C.1) All files in A)
 
 C.2) qkd_eavesdropping_2.py (contains main())
 
-Sample output transcripts of the programs have also been uploaded for noiseless/noisy/eavesdropping cases.
+Sample output transcripts of the programs have also been uploaded .
 Brief summary:
 
     This program simulates BB84 QKD using several classes for Alice, Bob, classical and quantum channels.
